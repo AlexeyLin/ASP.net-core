@@ -9,19 +9,19 @@ namespace MetricsManger.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class TempController : ControllerBase
+    public class TemperatureController : ControllerBase
     {
         private readonly ValuesHolder _holder;
 
-        public TempController(ValuesHolder holder)
+        public TemperatureController(ValuesHolder holder)
         {
-            this._holder = holder;
+            _holder = holder;
         }
 
         [HttpPost("create")]
-        public IActionResult Create([FromQuery] DateTime inputData, [FromQuery] int inputTemp)
+        public IActionResult Create([FromQuery] DateTime data, [FromQuery] int temperature)
         {
-            _holder.Values.Add(new TempPoint(inputData,inputTemp));
+            _holder.Values.Add(new TempPoint(data, temperature));
             return Ok();
         }
 
@@ -32,12 +32,12 @@ namespace MetricsManger.Controllers
         }
 
         [HttpPut("update")]
-        public IActionResult Update([FromQuery] DateTime dataToUpdate, [FromQuery] int newTemp)
+        public IActionResult Update([FromQuery] DateTime dataToUpdate, [FromQuery] int newTemperature)
         {
-            for (int i = 0; i < _holder.Values.Count; i++)
+            foreach(TempPoint point in _holder.Values)
             {
-                if (_holder.Values[i].DataTemp == dataToUpdate)
-                    _holder.Values[i].Temp = newTemp;
+                if (point.DataTemp == dataToUpdate)
+                    point.Temp = newTemperature;
             }
             return Ok();
         }
