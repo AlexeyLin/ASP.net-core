@@ -16,12 +16,5 @@ namespace MetricsAgent.Controllers
         {
             return Ok();
         }
-
-        [HttpGet("from/{fromTime}/to/{toTime}/percentiles/{percentile}")]
-        public IActionResult GetMetricsByPercentile([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime,
-            [FromRoute] Percentile percentile)
-        {
-            return Ok();
-        }
     }
 }

@@ -16,7 +16,7 @@ namespace MetricsAgentTests
         }
 
         [Fact]
-        public void GetErrorsCount_ReturnsOk()
+        public void GetMetrics_ReturnsOk()
         {
             //Arrange
             var fromTime = TimeSpan.FromSeconds(0);

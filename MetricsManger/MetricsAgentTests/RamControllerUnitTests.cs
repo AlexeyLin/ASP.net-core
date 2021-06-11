@@ -16,12 +16,14 @@ namespace MetricsAgentTests
         }
 
         [Fact]
-        public void GetErrorsCount_ReturnsOk()
+        public void GetAvailableRam_ReturnsOk()
         {
             //Arrange
+            var fromTime = TimeSpan.FromSeconds(0);
+            var toTime = TimeSpan.FromSeconds(100);
 
             //Act
-            var result = controller.GetAvailableRam();
+            var result = controller.GetAvailableRam(fromTime, toTime);
 
             // Assert
             _ = Assert.IsAssignableFrom<IActionResult>(result);

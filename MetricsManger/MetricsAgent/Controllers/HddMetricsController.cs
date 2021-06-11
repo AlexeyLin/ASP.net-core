@@ -11,8 +11,8 @@ namespace MetricsAgent.Controllers
     [ApiController]
     public class HddMetricsController : ControllerBase
     {
-        [HttpGet("left")]
-        public IActionResult GetLeftCapacity()
+        [HttpGet("left/from/{fromTime}/to/{toTime}")]
+        public IActionResult GetLeftCapacity([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
         {
             return Ok();
         }
