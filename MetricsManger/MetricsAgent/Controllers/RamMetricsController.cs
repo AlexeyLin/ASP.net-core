@@ -12,7 +12,7 @@ namespace MetricsAgent.Controllers
     public class RamMetricsController : ControllerBase
     {
         [HttpGet("available/from/{fromTime}/to/{toTime}")]
-        public IActionResult GetAvailableRam([FromRoute] TimeSpan fromTime, [FromRoute] TimeSpan toTime)
+        public IActionResult GetAvailableRam([FromRoute] DateTimeOffset fromTime, [FromRoute] DateTimeOffset toTime)
         {
             return Ok();
         }

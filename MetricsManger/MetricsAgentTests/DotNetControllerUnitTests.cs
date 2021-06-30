@@ -19,8 +19,8 @@ namespace MetricsAgentTests
         public void GetErrorsCount_ReturnsOk()
         {
             //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            var fromTime = new DateTimeOffset();
+            var toTime = new DateTimeOffset();
 
             //Act
             var result = controller.GetErrorsCount(fromTime, toTime);
