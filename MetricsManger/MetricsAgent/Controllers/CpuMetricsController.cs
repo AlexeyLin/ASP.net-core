@@ -23,7 +23,7 @@ namespace MetricsAgent.Controllers
         [HttpGet("from/{fromTime}/to/{toTime}")]
         public IActionResult GetMetrics([FromRoute] DateTimeOffset fromTime, [FromRoute] DateTimeOffset toTime)
         {
-            _logger.LogInformation("Привет");
+            _logger.LogInformation("GetCpuMetrics fromTime:{0} toTime:{1}", fromTime, toTime);
             return Ok();
         }
     }
