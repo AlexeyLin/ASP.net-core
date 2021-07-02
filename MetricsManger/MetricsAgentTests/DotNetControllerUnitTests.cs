@@ -8,7 +8,7 @@ namespace MetricsAgentTests
 {
     public class DotNetControllerUnitTests
     {
-        private DotNetMetricsController controller;
+        private readonly DotNetMetricsController controller;
 
         public DotNetControllerUnitTests()
         {

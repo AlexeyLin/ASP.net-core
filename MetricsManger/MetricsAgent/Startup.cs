@@ -45,11 +45,39 @@ namespace MetricsAgent
         {
             using (var command = new SQLiteCommand(connection))
             {
-                
+                //CPU
                 command.CommandText = "DROP TABLE IF EXISTS cpumetrics";
                 command.ExecuteNonQuery();
 
                 command.CommandText = @"CREATE TABLE cpumetrics(id INTEGER PRIMARY KEY, value INT, time INT)";
+                command.ExecuteNonQuery();
+
+                //DotNet
+                command.CommandText = "DROP TABLE IF EXISTS dotnetmetrics";
+                command.ExecuteNonQuery();
+
+                command.CommandText = @"CREATE TABLE dotnetmetrics(id INTEGER PRIMARY KEY, value INT, time INT)";
+                command.ExecuteNonQuery();
+
+                //HDD
+                command.CommandText = "DROP TABLE IF EXISTS hddmetrics";
+                command.ExecuteNonQuery();
+
+                command.CommandText = @"CREATE TABLE hddmetrics(id INTEGER PRIMARY KEY, value INT, time INT)";
+                command.ExecuteNonQuery();
+
+                //Network
+                command.CommandText = "DROP TABLE IF EXISTS networkmetrics";
+                command.ExecuteNonQuery();
+
+                command.CommandText = @"CREATE TABLE networkmetrics(id INTEGER PRIMARY KEY, value INT, time INT)";
+                command.ExecuteNonQuery();
+
+                //RAM
+                command.CommandText = "DROP TABLE IF EXISTS rammetrics";
+                command.ExecuteNonQuery();
+
+                command.CommandText = @"CREATE TABLE rammetrics(id INTEGER PRIMARY KEY, value INT, time INT)";
                 command.ExecuteNonQuery();
             }
         }
