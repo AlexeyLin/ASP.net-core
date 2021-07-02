@@ -29,14 +29,14 @@ namespace MetricsAgent.DAL.Repositories
         public IList<CpuMetric> GetByTimePeriod(DateTimeOffset fromTime, DateTimeOffset toTime)
         {
             var returnList = new List<CpuMetric>();
-            long from = fromTime.ToUnixTimeSeconds();
-            long to = toTime.ToUnixTimeSeconds();
 
             using var connection = new SQLiteConnection(ConnectionString);
             connection.Open();
             using var cmd = new SQLiteCommand(connection);
 
-            cmd.CommandText = "SELECT * FROM cpumetrics WHERE time>=@from AND time<=@to";
+            cmd.CommandText = "SELECT * FROM cpumetrics WHERE time>@fromTime AND time<@toTime";
+            cmd.Parameters.AddWithValue("@fromTime", fromTime.ToUnixTimeSeconds());
+            cmd.Parameters.AddWithValue("@toTime", toTime.ToUnixTimeSeconds());
             using (SQLiteDataReader reader = cmd.ExecuteReader())
             {
                 while (reader.Read())

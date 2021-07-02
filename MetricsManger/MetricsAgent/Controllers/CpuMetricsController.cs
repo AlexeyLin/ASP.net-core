@@ -30,6 +30,7 @@ namespace MetricsAgent.Controllers
         public IActionResult GetMetrics([FromRoute] DateTimeOffset fromTime, [FromRoute] DateTimeOffset toTime)
         {
             _logger.LogInformation("GetCpuMetrics fromTime:{0} toTime:{1}", fromTime, toTime);
+
             var metrics = _repository.GetByTimePeriod(fromTime,toTime);
             var response = new AllCpuMetricsResponse()
             {
@@ -38,7 +39,12 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new CpuMetricDto { Time = DateTimeOffset.FromUnixTimeSeconds(metric.Time), Value = metric.Value, Id = metric.Id });
+                response.Metrics.Add(new CpuMetricDto 
+                { 
+                    Time = DateTimeOffset.FromUnixTimeSeconds(metric.Time), 
+                    Value = metric.Value, 
+                    Id = metric.Id 
+                });
             }
 
             return Ok(response);
