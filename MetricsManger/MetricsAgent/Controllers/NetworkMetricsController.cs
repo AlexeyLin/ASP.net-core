@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using MetricsAgent.DAL.Interfaces;
 using MetricsAgent.DAL.Models;
 using MetricsAgent.Requests;
@@ -17,10 +18,13 @@ namespace MetricsAgent.Controllers
 
         private readonly ILogger<NetworkMetricsController> _logger;
 
-        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, INetworkMetricsRepository repository)
+        private readonly IMapper _mapper;
+
+        public NetworkMetricsController(ILogger<NetworkMetricsController> logger, INetworkMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet("from/{fromTime}/to/{toTime}")]
@@ -36,12 +40,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new NetworkMetricDto
-                {
-                    Time = DateTimeOffset.FromUnixTimeSeconds(metric.Time),
-                    Value = metric.Value,
-                    Id = metric.Id
-                });
+                response.Metrics.Add(_mapper.Map<NetworkMetricDto>(metric));
             }
 
             return Ok(response);

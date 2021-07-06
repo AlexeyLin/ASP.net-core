@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using MetricsAgent.DAL.Interfaces;
 using MetricsAgent.DAL.Models;
 using MetricsAgent.Requests;
@@ -17,10 +18,13 @@ namespace MetricsAgent.Controllers
 
         private readonly ILogger<CpuMetricsController> _logger;
 
-        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository)
+        private readonly IMapper _mapper;
+
+        public CpuMetricsController(ILogger<CpuMetricsController> logger, ICpuMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet("from/{fromTime}/to/{toTime}")]
@@ -29,6 +33,7 @@ namespace MetricsAgent.Controllers
             _logger.LogInformation("GetCpuMetrics fromTime:{0} toTime:{1}", fromTime, toTime);
 
             var metrics = _repository.GetByTimePeriod(fromTime,toTime);
+
             var response = new AllCpuMetricsResponse()
             {
                 Metrics = new List<CpuMetricDto>()
@@ -36,12 +41,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new CpuMetricDto 
-                { 
-                    Time = DateTimeOffset.FromUnixTimeSeconds(metric.Time), 
-                    Value = metric.Value, 
-                    Id = metric.Id 
-                });
+                response.Metrics.Add(_mapper.Map<CpuMetricDto>(metric));
             }
 
             return Ok(response);

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using AutoMapper;
 using MetricsAgent.DAL.Interfaces;
 using MetricsAgent.DAL.Models;
 using MetricsAgent.Requests;
@@ -17,10 +18,13 @@ namespace MetricsAgent.Controllers
 
         private readonly ILogger<HddMetricsController> _logger;
 
-        public HddMetricsController(ILogger<HddMetricsController> logger, IHddMetricsRepository repository)
+        private readonly IMapper _mapper;
+
+        public HddMetricsController(ILogger<HddMetricsController> logger, IHddMetricsRepository repository, IMapper mapper)
         {
             _logger = logger;
             _repository = repository;
+            _mapper = mapper;
         }
 
         [HttpGet("left/from/{fromTime}/to/{toTime}")]
@@ -36,12 +40,7 @@ namespace MetricsAgent.Controllers
 
             foreach (var metric in metrics)
             {
-                response.Metrics.Add(new HddMetricDto
-                {
-                    Time = DateTimeOffset.FromUnixTimeSeconds(metric.Time),
-                    Value = metric.Value,
-                    Id = metric.Id
-                });
+                response.Metrics.Add(_mapper.Map<HddMetricDto>(metric));
             }
 
             return Ok(response);

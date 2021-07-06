@@ -3,12 +3,19 @@ using MetricsAgent.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using Dapper;
 
 namespace MetricsAgent.DAL.Repositories
 {
     public class CpuMetricsRepository : ICpuMetricsRepository
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
+
+        public CpuMetricsRepository()
+        {
+            // добавляем парсилку типа TimeSpan в качестве подсказки для SQLite
+            //SqlMapper.AddTypeHandler(new TimeSpanHandler());
+        }
 
         public void Create(CpuMetric item)
         {
