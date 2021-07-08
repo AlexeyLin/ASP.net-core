@@ -1,32 +1,48 @@
 using MetricsAgent.Controllers;
-using MetricsAgent;
 using System;
 using Xunit;
-using Microsoft.AspNetCore.Mvc;
+using Moq;
+using MetricsAgent.DAL.Interfaces;
+using MetricsAgent.DAL.Models;
+using Microsoft.Extensions.Logging;
+using System.Collections.Generic;
 
 namespace MetricsAgentTests
 {
     public class CpuControllerUnitTests
     {
-        private CpuMetricsController controller;
+        private readonly CpuMetricsController _controller;
+        private readonly Mock<ICpuMetricsRepository> _mock;
+        private readonly Mock<ILogger<CpuMetricsController>> _mockLog;
 
         public CpuControllerUnitTests()
         {
-            controller = new CpuMetricsController();
+            _mock = new Mock<ICpuMetricsRepository>();
+            _mockLog = new Mock<ILogger<CpuMetricsController>>();
+            _controller = new CpuMetricsController(_mockLog.Object, _mock.Object);
+        }
+
+        [Fact]
+        public void Create_ReturnsOk()
+        {
+            _mock.Setup(repository => repository.Create(It.IsAny<CpuMetric>())).Verifiable();
+
+            var result = _controller.Create(new MetricsAgent.Requests.CpuMetricCreateRequest { Time = DateTimeOffset.FromUnixTimeSeconds(0), Value = 50 });
+
+            _mock.Verify(repository => repository.Create(It.IsAny<CpuMetric>()), Times.Once());
         }
 
         [Fact]
         public void GetMetrics_ReturnsOk()
         {
-            //Arrange
-            var fromTime = TimeSpan.FromSeconds(0);
-            var toTime = TimeSpan.FromSeconds(100);
+            var fromTime = DateTimeOffset.FromUnixTimeSeconds(0);
+            var toTime = DateTimeOffset.FromUnixTimeSeconds(100);
 
-            //Act
-            var result = controller.GetMetrics(fromTime, toTime);
+            _mock.Setup(repository => repository.GetByTimePeriod(fromTime, toTime)).Returns(new List<CpuMetric>());
 
-            // Assert
-            _ = Assert.IsAssignableFrom<IActionResult>(result);
+            var result = _controller.GetMetrics(fromTime, toTime);
+
+            _mock.Verify(repository => repository.GetByTimePeriod(fromTime, toTime), Times.Once());
         }
     }
 }
