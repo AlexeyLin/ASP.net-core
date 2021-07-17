@@ -3,6 +3,8 @@ using MetricsAgent.DAL.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
+using System.Linq;
+using Dapper;
 
 namespace MetricsAgent.DAL.Repositories
 {
@@ -26,28 +28,15 @@ namespace MetricsAgent.DAL.Repositories
 
         public IList<NetworkMetric> GetByTimePeriod(DateTimeOffset fromTime, DateTimeOffset toTime)
         {
-            var returnList = new List<NetworkMetric>();
-
-            using var connection = new SQLiteConnection(ConnectionString);
-            connection.Open();
-            using var cmd = new SQLiteCommand(connection);
-
-            cmd.CommandText = "SELECT * FROM networkmetrics WHERE time>@fromTime AND time<@toTime";
-            cmd.Parameters.AddWithValue("@fromTime", fromTime.ToUnixTimeSeconds());
-            cmd.Parameters.AddWithValue("@toTime", toTime.ToUnixTimeSeconds());
-            using (SQLiteDataReader reader = cmd.ExecuteReader())
+            using (var connection = new SQLiteConnection(ConnectionString))
             {
-                while (reader.Read())
-                {
-                    returnList.Add(new NetworkMetric
+                return connection.Query<NetworkMetric>("SELECT * FROM networkmetrics WHERE time>@from AND time<@to",
+                    new
                     {
-                        Id = reader.GetInt32(0),
-                        Value = reader.GetInt32(1),
-                        Time = reader.GetInt64(2)
-                    });
-                }
+                        from = fromTime.ToUnixTimeSeconds(),
+                        to = toTime.ToUnixTimeSeconds()
+                    }).ToList();
             }
-            return returnList;
         }
     }
 }
