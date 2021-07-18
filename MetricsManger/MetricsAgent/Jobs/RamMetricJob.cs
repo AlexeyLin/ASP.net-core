@@ -9,28 +9,27 @@ using MetricsAgent.DAL.Models;
 
 namespace MetricsAgent.Jobs
 {
-    public class CpuMetricJob : IJob
+    public class RamMetricJob : IJob
     {
-        private ICpuMetricsRepository _repository;
+        private IRamMetricsRepository _repository;
 
-        private PerformanceCounter _cpuCounter;
+        private PerformanceCounter _ramCounter;
 
-        public CpuMetricJob(ICpuMetricsRepository repository)
+        public RamMetricJob(IRamMetricsRepository repository)
         {
             _repository = repository;
-            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _ramCounter = new PerformanceCounter("Memory", "Available MBytes");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var cpuUsageInPercents = Convert.ToInt32(_cpuCounter.NextValue());
+            var ramAvailableMBytes = Convert.ToInt32(_ramCounter.NextValue());
 
             var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            _repository.Create(new CpuMetric { Time = time, Value = cpuUsageInPercents });
+            _repository.Create(new RamMetric { Time = time, Value = ramAvailableMBytes });
 
             return Task.CompletedTask;
         }
     }
 }
-

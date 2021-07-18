@@ -9,28 +9,27 @@ using MetricsAgent.DAL.Models;
 
 namespace MetricsAgent.Jobs
 {
-    public class CpuMetricJob : IJob
+    public class NetworkMetricJob : IJob
     {
-        private ICpuMetricsRepository _repository;
+        private INetworkMetricsRepository _repository;
 
-        private PerformanceCounter _cpuCounter;
+        private PerformanceCounter _networkCounter;
 
-        public CpuMetricJob(ICpuMetricsRepository repository)
+        public NetworkMetricJob(INetworkMetricsRepository repository)
         {
             _repository = repository;
-            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _networkCounter = new PerformanceCounter("Network Interface", "Packets/sec", "_Total");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var cpuUsageInPercents = Convert.ToInt32(_cpuCounter.NextValue());
+            var networkPacketsInSec = Convert.ToInt32(_networkCounter.NextValue());
 
             var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            _repository.Create(new CpuMetric { Time = time, Value = cpuUsageInPercents });
+            _repository.Create(new NetworkMetric { Time = time, Value = networkPacketsInSec });
 
             return Task.CompletedTask;
         }
     }
 }
-

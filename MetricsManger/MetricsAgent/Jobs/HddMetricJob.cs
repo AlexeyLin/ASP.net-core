@@ -9,28 +9,27 @@ using MetricsAgent.DAL.Models;
 
 namespace MetricsAgent.Jobs
 {
-    public class CpuMetricJob : IJob
+    public class HddMetricJob : IJob
     {
-        private ICpuMetricsRepository _repository;
+        private IHddMetricsRepository _repository;
 
-        private PerformanceCounter _cpuCounter;
+        private PerformanceCounter _hddCounter;
 
-        public CpuMetricJob(ICpuMetricsRepository repository)
+        public HddMetricJob(IHddMetricsRepository repository)
         {
             _repository = repository;
-            _cpuCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
+            _hddCounter = new PerformanceCounter("PhysicalDisk", "%Disk Time", "_Total");
         }
 
         public Task Execute(IJobExecutionContext context)
         {
-            var cpuUsageInPercents = Convert.ToInt32(_cpuCounter.NextValue());
+            var hddUsageInPercents = Convert.ToInt32(_hddCounter.NextValue());
 
             var time = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
 
-            _repository.Create(new CpuMetric { Time = time, Value = cpuUsageInPercents });
+            _repository.Create(new HddMetric { Time = time, Value = hddUsageInPercents });
 
             return Task.CompletedTask;
         }
     }
 }
-
