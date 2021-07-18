@@ -18,7 +18,7 @@ namespace MetricsAgent.Jobs
         public NetworkMetricJob(INetworkMetricsRepository repository)
         {
             _repository = repository;
-            _networkCounter = new PerformanceCounter("Network Interface", "Packets/sec", "_Total");
+            _networkCounter = new PerformanceCounter("Network Interface", "Packets/sec", "Intel[R] Ethernet Connection [2] I219-V _2");
         }
 
         public Task Execute(IJobExecutionContext context)
