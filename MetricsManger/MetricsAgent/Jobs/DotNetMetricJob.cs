@@ -16,7 +16,7 @@ namespace MetricsAgent.Jobs
         public DotNetMetricJob(IDotNetMetricsRepository repository)
         {
             _repository = repository;
-            _dotNetCounter = new PerformanceCounter("ASP.NET Applications", "ErrorsTotal", "__Total__");
+            _dotNetCounter = new PerformanceCounter("ASP.NET Applications", "Errors Total", "__Total__");
         }
 
         public Task Execute(IJobExecutionContext context)
