@@ -1,14 +1,14 @@
-﻿using MetricsAgent.DAL.Interfaces;
-using MetricsAgent.DAL.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data.SQLite;
 using System.Linq;
+using System.Threading.Tasks;
 using Dapper;
+using MetricsAgent.DAL.Models;
 
-namespace MetricsAgent.DAL.Repositories
+namespace MetricsManager.DAL.Repositories
 {
-    public class CpuMetricsRepository : ICpuMetricsRepository
+    public class AgentsRepository
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
 
@@ -37,6 +37,40 @@ namespace MetricsAgent.DAL.Repositories
                     }).ToList();
             }
         }
+
+        public IList<AgentInfo> GetListRegisterAgents()
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<AgentInfo>("SELECT id, address FROM agents")
+                    .ToList();
+            }
+        }
+
+        public void RegisterAgent(AgentInfo item)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            { 
+                connection.Execute("INSERT INTO agents(id, address) VALUES(@id, @address)",
+                    new
+                    {
+                        id = item.Id,
+                        address = item.Address.ToString()
+                    });
+            }
+
+        }
+
+        
+        public void EnableAgentById(int agentId)
+        {
+            
+        }
+
+        
+        public void DisableAgentById(int agentId)
+        {
+            
+        }
     }
 }
-
