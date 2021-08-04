@@ -21,7 +21,6 @@ namespace MetricsAgent.DAL.Repositories
             cmd.CommandText = "INSERT INTO cpumetrics(value, time) VALUES(@value, @time)";
             cmd.Parameters.AddWithValue("@value", item.Value);
             cmd.Parameters.AddWithValue("@time", item.Time);
-
             cmd.Prepare();
             cmd.ExecuteNonQuery();
         }
