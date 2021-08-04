@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace MetricsAgent.DAL.Interfaces
 {
-    // необходим, чтобы проверить работу репозитория на тесте-заглушке
     public interface ICpuMetricsRepository : IRepository<CpuMetric>
     {
 

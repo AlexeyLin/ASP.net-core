@@ -36,6 +36,21 @@ namespace MetricsAgent.DAL.Migrations
                 .WithColumn("Id").AsInt64().PrimaryKey()
                 .WithColumn("Address").AsString()
                 .WithColumn("Status").AsString().WithDefaultValue("Enable");
+            Create.ForeignKey("fk_cpumetrics_agentId")
+                .FromTable("cpumetrics").ForeignColumn("AgentId")
+                .ToTable("agents").PrimaryColumn("Id");
+            Create.ForeignKey("fk_dotnetmetrics_agentId")
+                .FromTable("dotnetmetrics").ForeignColumn("AgentId")
+                .ToTable("agents").PrimaryColumn("Id");
+            Create.ForeignKey("fk_hddmetrics_agentId")
+                .FromTable("hddmetrics").ForeignColumn("AgentId")
+                .ToTable("agents").PrimaryColumn("Id");
+            Create.ForeignKey("fk_networkmetrics_agentId")
+                .FromTable("networkmetrics").ForeignColumn("AgentId")
+                .ToTable("agents").PrimaryColumn("Id");
+            Create.ForeignKey("fk_rammetrics_agentId")
+                .FromTable("rammetrics").ForeignColumn("AgentId")
+                .ToTable("agents").PrimaryColumn("Id");
         }
 
         public override void Down()
