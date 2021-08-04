@@ -38,5 +38,31 @@ namespace MetricsManager.DAL.Repositories
                     }).ToList();
             }
         }
+
+        public long GetLastTime(int id)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.QuerySingle("SELECT MAX(time) FROM rammetrics WHERE agentid = @id",
+                    new
+                    {
+                        id = id
+                    });
+            }
+        }
+
+        public void Create(RamMetric item)
+        {
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                connection.Execute("INSERT INTO rammetrics(value, time, agentid) VALUES(@value, @time, @agentid)",
+                    new
+                    {
+                        value = item.Value,
+                        time = item.Time,
+                        agentid = item.AgentId
+                    });
+            }
+        }
     }
 }

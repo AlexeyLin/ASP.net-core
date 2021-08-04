@@ -10,6 +10,6 @@ namespace MetricsManager.Responses
     {
         public int Id { get; set; }
 
-        public string Address { get; set; }
+        public Url Address { get; set; }
     }
 }

@@ -20,7 +20,8 @@ namespace MetricsManager
                 .MapFrom(orig => DateTimeOffset.FromUnixTimeSeconds(orig.Time))); ;
             CreateMap<RamMetric, RamMetricDto>().ForMember(dest => dest.Time, opt => opt
                 .MapFrom(orig => DateTimeOffset.FromUnixTimeSeconds(orig.Time))); ;
-            CreateMap<AgentInfo, AgentInfoDto>(); ;
+            CreateMap<AgentInfo, AgentInfoDto>().ForMember(dest => dest.Address, opt => opt
+                .MapFrom(orig => new Url(orig.Address)));
         }
     }
 }

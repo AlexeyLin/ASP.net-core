@@ -37,7 +37,7 @@ namespace MetricsManager.Jobs
                 var metrics = _metricClient.GetCpuMetrics(new CpuMetricApiRequest
                 {
                     ClientBaseAddress = new Url(agent.Address),
-                    FromTime = fromTime,
+                    FromTime = DateTimeOffset.FromUnixTimeSeconds(fromTime),
                     ToTime = toTime
                 });
 
@@ -50,7 +50,6 @@ namespace MetricsManager.Jobs
                             AgentId = agent.Id,
                             Time = metric.Time.ToUnixTimeSeconds(),
                             Value = metric.Value,
-                            Id = metric.Id
                         });
                     }
                 }
