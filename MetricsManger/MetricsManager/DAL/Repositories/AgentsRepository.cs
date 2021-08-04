@@ -29,7 +29,7 @@ namespace MetricsManager.DAL.Repositories
                     new
                     {
                         id = item.Id,
-                        address = item.Address.ToString()
+                        address = item.Address
                     });
             }
 

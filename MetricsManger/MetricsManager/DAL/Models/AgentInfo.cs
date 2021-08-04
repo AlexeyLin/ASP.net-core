@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Security.Policy;
 
 namespace MetricsManager.DAL.Models
 {
     public class AgentInfo
     {
-        public int Id { get; }
+        public int Id { get; set; }
 
-        public Uri Address { get; }
+        public string Address { get; set; }
     }
 }

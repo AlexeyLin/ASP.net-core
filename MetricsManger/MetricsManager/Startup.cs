@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using AutoMapper;
 using FluentMigrator.Runner;
-using MetricsAgent.Jobs;
+using MetricsManager.Jobs;
 using Quartz;
 using Quartz.Impl;
 using Quartz.Spi;

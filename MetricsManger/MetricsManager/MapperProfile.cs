@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Security.Policy;
 using AutoMapper;
 using MetricsManager.DAL.Models;
 using MetricsManager.Responses;
@@ -19,6 +20,7 @@ namespace MetricsManager
                 .MapFrom(orig => DateTimeOffset.FromUnixTimeSeconds(orig.Time))); ;
             CreateMap<RamMetric, RamMetricDto>().ForMember(dest => dest.Time, opt => opt
                 .MapFrom(orig => DateTimeOffset.FromUnixTimeSeconds(orig.Time))); ;
+            CreateMap<AgentInfo, AgentInfoDto>(); ;
         }
     }
 }
