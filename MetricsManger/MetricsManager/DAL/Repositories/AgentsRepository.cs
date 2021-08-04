@@ -34,7 +34,6 @@ namespace MetricsManager.DAL.Repositories
 
         }
 
-        
         public void EnableAgentById(int agentId)
         {
             using (var connection = new SQLiteConnection(ConnectionString))

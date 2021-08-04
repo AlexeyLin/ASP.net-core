@@ -64,6 +64,5 @@ namespace MetricsManager.Controllers
 
             return Ok(response);
         }
-
     }
 }

@@ -12,21 +12,21 @@ namespace MetricsAgent.DAL.Repositories
     {
         private const string ConnectionString = "Data Source=metrics.db;Version=3;Pooling=true;Max Pool Size=100;";
 
-        public void Create(RamMetric item)
+        public IList<RamMetric> GetMetricsFromAgent(int agentId, DateTimeOffset fromTime, DateTimeOffset toTime)
         {
-            using var connection = new SQLiteConnection(ConnectionString);
-            connection.Open();
-            using var cmd = new SQLiteCommand(connection);
-
-            cmd.CommandText = "INSERT INTO rammetrics(value, time) VALUES(@value, @time)";
-            cmd.Parameters.AddWithValue("@value", item.Value);
-            cmd.Parameters.AddWithValue("@time", item.Time);
-
-            cmd.Prepare();
-            cmd.ExecuteNonQuery();
+            using (var connection = new SQLiteConnection(ConnectionString))
+            {
+                return connection.Query<RamMetric>("SELECT * FROM rammetrics WHERE time>@from AND time<@to AND agentid=@id",
+                    new
+                    {
+                        from = fromTime.ToUnixTimeSeconds(),
+                        to = toTime.ToUnixTimeSeconds(),
+                        id = agentId
+                    }).ToList();
+            }
         }
 
-        public IList<RamMetric> GetByTimePeriod(DateTimeOffset fromTime, DateTimeOffset toTime)
+        public IList<RamMetric> GetMetricsFromAllCluster(DateTimeOffset fromTime, DateTimeOffset toTime)
         {
             using (var connection = new SQLiteConnection(ConnectionString))
             {
@@ -34,7 +34,7 @@ namespace MetricsAgent.DAL.Repositories
                     new
                     {
                         from = fromTime.ToUnixTimeSeconds(),
-                        to = toTime.ToUnixTimeSeconds()
+                        to = toTime.ToUnixTimeSeconds(),
                     }).ToList();
             }
         }
