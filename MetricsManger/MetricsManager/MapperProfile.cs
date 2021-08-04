@@ -1,9 +1,9 @@
 ﻿using System;
 using AutoMapper;
-using MetricsAgent.DAL.Models;
-using MetricsAgent.Responses;
+using MetricsManager.DAL.Models;
+using MetricsManager.Responses;
 
-namespace MetricsAgent
+namespace MetricsManager
 {
     public class MapperProfile : Profile
     {

@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
-using MetricsManager;
+using MetricsManager.DAL.Models;
 
-namespace MetricsAgent.DAL.Interfaces
+namespace MetricsManager.DAL.Interfaces
 {
-    public interface IAgentsRepository<T> where T : class
+    public interface IAgentsRepository
     {
-        IList<T> GetListRegisterAgents();
+        IList<AgentInfo> GetListRegisterAgents();
 
-        void RegisterAgent(T item);
+        void RegisterAgent(AgentInfo item);
 
         void EnableAgentById(int agentId);
 

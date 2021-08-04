@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using MetricsAgent.DAL.Interfaces;
-using MetricsAgent.Responses;
+using MetricsManager.DAL.Interfaces;
+using MetricsManager.Responses;
 using Microsoft.Extensions.Logging;
 
 namespace MetricsManager.Controllers

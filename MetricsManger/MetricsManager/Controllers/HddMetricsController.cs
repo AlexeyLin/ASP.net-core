@@ -2,8 +2,8 @@
 using System;
 using System.Collections.Generic;
 using AutoMapper;
-using MetricsAgent.DAL.Interfaces;
-using MetricsAgent.Responses;
+using MetricsManager.DAL.Interfaces;
+using MetricsManager.Responses;
 using Microsoft.Extensions.Logging;
 
 namespace MetricsManager.Controllers

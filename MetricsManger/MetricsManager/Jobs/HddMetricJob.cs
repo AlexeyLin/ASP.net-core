@@ -1,13 +1,13 @@
-﻿using MetricsAgent.DAL;
+﻿using MetricsManager.DAL;
 using Microsoft.Extensions.DependencyInjection;
 using Quartz;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using MetricsAgent.DAL.Interfaces;
-using MetricsAgent.DAL.Models;
+using MetricsManager.DAL.Interfaces;
+using MetricsManager.DAL.Models;
 
-namespace MetricsAgent.Jobs
+namespace MetricsManager.Jobs
 {
     public class HddMetricJob : IJob
     {

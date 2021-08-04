@@ -1,6 +1,6 @@
 ﻿using FluentMigrator;
 
-namespace MetricsAgent.DAL.Migrations
+namespace MetricsManager.DAL.Migrations
 {
     [Migration(1)]
     public class FirstMigration : Migration
